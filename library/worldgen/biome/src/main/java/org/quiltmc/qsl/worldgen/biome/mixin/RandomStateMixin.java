@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public abstract class RandomStateMixin {
 	private MultiNoiseUtil.MultiNoiseSampler sampler;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
-	private void quilt$onInit(ChunkGeneratorSettings chunkGeneratorSettings, HolderProvider<DoublePerlinNoiseSampler.NoiseParameters> registry, long seed,
+	private void onInit(ChunkGeneratorSettings chunkGeneratorSettings, HolderProvider<DoublePerlinNoiseSampler.NoiseParameters> registry, long seed,
 			CallbackInfo ci) {
 		((MultiNoiseSamplerExtensions) (Object) this.sampler).quilt$setSeed(seed);
 	}

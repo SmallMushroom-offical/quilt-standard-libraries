@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022-2023 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,7 +159,7 @@ public class BiomeModificationImpl {
 		return this.modifiers;
 	}
 
-	public void finalizeWorldGen(DynamicRegistryManager impl, WorldSaveProperties levelProperties, ResourceManager resourceManager) {
+	public void finalizeWorldGen(DynamicRegistryManager impl, WorldSaveProperties worldSaveProperties, ResourceManager resourceManager) {
 		this.reloader.apply(resourceManager, impl);
 		this.addMissingModifiers();
 		this.updateIdentifiedModifiers();

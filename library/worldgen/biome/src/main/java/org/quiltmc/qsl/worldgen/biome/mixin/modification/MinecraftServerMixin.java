@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022-2023 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,10 +46,10 @@ public abstract class MinecraftServerMixin {
 
 	@Inject(method = "<init>", at = @At(value = "RETURN"))
 	private void finalizeWorldGen(CallbackInfo ci) {
-		if (!(this.saveProperties instanceof WorldSaveProperties levelProperties)) {
+		if (!(this.saveProperties instanceof WorldSaveProperties worldSaveProperties)) {
 			throw new RuntimeException("Incompatible SaveProperties passed to MinecraftServer: " + this.saveProperties);
 		}
 
-		BiomeModificationImpl.INSTANCE.finalizeWorldGen(this.getRegistryManager(), levelProperties, this.getResourceManager());
+		BiomeModificationImpl.INSTANCE.finalizeWorldGen(this.getRegistryManager(), worldSaveProperties, this.getResourceManager());
 	}
 }

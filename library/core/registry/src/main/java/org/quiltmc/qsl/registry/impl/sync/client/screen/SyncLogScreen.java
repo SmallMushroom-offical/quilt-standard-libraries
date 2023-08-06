@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 QuiltMC
+ * Copyright 2023 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class SyncLogScreen extends Screen {
 	private double currentScroll = 0;
 
 	public SyncLogScreen(Screen parent, List<LogBuilder.Section> text) {
-		super(Text.translatable("quilt.core.registry_sync.logs_title", "Server Synchronization Logs"));
+		super(Text.translatableWithFallback("quilt.core.registry_sync.logs_title", "Server Synchronization Logs"));
 		this.parent = parent;
 		this.text = text;
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 QuiltMC
+ * Copyright 2023 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class LogBuilder {
 	private int duplicateCount = 0;
 
 	public void pushT(String id, String lang, Object... args) {
-		this.push(Text.translatable("quilt.core.registry_sync.log." + id, lang, args));
+		this.push(Text.translatableWithFallback("quilt.core.registry_sync.log." + id, lang, args));
 	}
 
 	public void push(Text title) {

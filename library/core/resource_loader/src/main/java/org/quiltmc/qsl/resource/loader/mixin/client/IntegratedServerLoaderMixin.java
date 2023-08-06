@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2023 QuiltMC
+ * Copyright 2021 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 
 package org.quiltmc.qsl.resource.loader.mixin.client;
+
+import java.util.Optional;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
@@ -45,6 +47,7 @@ import net.minecraft.world.storage.WorldSaveStorage;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.base.api.util.TriState;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
+import org.quiltmc.qsl.resource.loader.impl.ResourceLoaderEventContextsImpl;
 
 @ClientOnly
 @Mixin(IntegratedServerLoader.class)
@@ -60,17 +63,13 @@ public abstract class IntegratedServerLoaderMixin {
 	@Unique
 	private static final TriState EXPERIMENTAL_SCREEN_OVERRIDE = TriState.fromProperty("quilt.resource_loader.experimental_screen_override");
 
-	@Inject(method = "method_45694", at = @At("HEAD"))
-	private <D, R> void onStartDataPackLoad(WorldLoader.PackConfig packConfig, WorldLoader.LoadContextSupplier<D> loadContextSupplier,
-			WorldLoader.ApplierFactory<D, R> applierFactory, CallbackInfoReturnable<R> cir) {
-		ResourceLoaderEvents.START_DATA_PACK_RELOAD.invoker().onStartDataPackReload(null, null);
-	}
-
 	@Inject(method = "method_45694", at = @At("RETURN"))
 	private <D, R> void onEndDataPackLoad(WorldLoader.PackConfig packConfig, WorldLoader.LoadContextSupplier<D> loadContextSupplier,
 			WorldLoader.ApplierFactory<D, R> applierFactory, CallbackInfoReturnable<R> cir) {
 		if (cir.getReturnValue() instanceof WorldStem worldStem) {
-			ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(null, worldStem.resourceManager(), null);
+			ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(new ResourceLoaderEventContextsImpl.ReloadEndContext(
+					worldStem.resourceManager(), worldStem.registries().getCompositeManager(), Optional.empty()
+			));
 		}
 	}
 
@@ -82,7 +81,9 @@ public abstract class IntegratedServerLoaderMixin {
 	private static void onEndDataPackLoad(AutoCloseableResourceManager resourceManager, ServerReloadableResources resources,
 			LayeredRegistryManager<?> layeredRegistryManager, @Coerce Object c_tattaqxb,
 			CallbackInfoReturnable<Pair<?, ?>> cir) {
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(null, resourceManager, null);
+		ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(new ResourceLoaderEventContextsImpl.ReloadEndContext(
+				resourceManager, layeredRegistryManager.getCompositeManager(), Optional.empty()
+		));
 	}
 
 	@ModifyArg(
@@ -90,9 +91,11 @@ public abstract class IntegratedServerLoaderMixin {
 			at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Throwable;)V", remap = false),
 			index = 1
 	)
-	private Throwable onFailedDataPackLoad(Throwable throwable) {
-		ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(null, null, throwable);
-		return throwable; // noop
+	private Throwable onFailedDataPackLoad(Throwable exception) {
+		ResourceLoaderEvents.END_DATA_PACK_RELOAD.invoker().onEndDataPackReload(new ResourceLoaderEventContextsImpl.ReloadEndContext(
+				null, null, Optional.of(exception)
+		));
+		return exception; // noop
 	}
 
 	@Inject(
@@ -107,7 +110,7 @@ public abstract class IntegratedServerLoaderMixin {
 	private void onBackupExperimentalWarning(Screen parentScreen, String worldName, boolean safeMode, boolean requireBackup, CallbackInfo ci,
 			WorldSaveStorage.Session session, ResourcePackManager resourcePackManager, WorldStem worldStem) {
 		if (EXPERIMENTAL_SCREEN_OVERRIDE.toBooleanOrElse(true)
-				&& !worldStem.saveProperties().method_28057().hasLegacyCustomOptions()) {
+				&& !worldStem.saveProperties().getGeneratorOptions().hasLegacyCustomOptions()) {
 			worldStem.close();
 			close(session, worldName);
 			this.start(parentScreen, worldName, safeMode, false);
