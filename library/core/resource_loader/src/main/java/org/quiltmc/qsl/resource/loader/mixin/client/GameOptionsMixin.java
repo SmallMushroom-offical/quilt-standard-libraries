@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.resource.pack.ResourcePackManager;
+import net.minecraft.resource.pack.PackManager;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
@@ -58,11 +58,11 @@ public abstract class GameOptionsMixin {
 	@Inject(method = "accept(Lnet/minecraft/client/option/GameOptions$Visitor;)V", at = @At("HEAD"))
 	private void onAccept(GameOptions.Visitor visitor, CallbackInfo ci) {
 		this.quilt$availableResourcePacks = visitor.visitObject("quilt_available_resource_packs",
-				this.quilt$availableResourcePacks, GameOptionsMixin::deserializeStringList, GSON::toJson);
+			this.quilt$availableResourcePacks, GameOptionsMixin::deserializeStringList, GSON::toJson);
 	}
 
 	@Inject(method = "addResourcePackProfilesToManager", at = @At("HEAD"))
-	private void onAddResourcePackProfilesToManager(ResourcePackManager manager, CallbackInfo ci) {
+	private void onAddResourcePackProfilesToManager(PackManager manager, CallbackInfo ci) {
 		var toEnable = new ArrayList<String>();
 
 		// Remove all resource packs that cannot be found from the available resource packs list.

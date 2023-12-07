@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import net.minecraft.resource.pack.ResourcePackManager;
 import net.minecraft.test.GameTest;
 import net.minecraft.test.GameTestBatch;
 import net.minecraft.test.StructureTestUtil;
@@ -47,6 +46,7 @@ import net.minecraft.test.TestServer;
 import net.minecraft.test.TestUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.WorldSaveStorage;
+import net.minecraft.resource.pack.PackManager;
 
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
@@ -72,7 +72,7 @@ public final class QuiltGameTestImpl implements ModInitializer {
 	 * @param storageSession      the storage session
 	 * @param resourcePackManager the resource pack manager
 	 */
-	public static void runHeadlessServer(WorldSaveStorage.Session storageSession, ResourcePackManager resourcePackManager) {
+	public static void runHeadlessServer(WorldSaveStorage.Session storageSession, PackManager resourcePackManager) {
 		LOGGER.info("Starting test server...");
 		LOGGER.info("By starting a Minecraft server you agree to its EULA.");
 

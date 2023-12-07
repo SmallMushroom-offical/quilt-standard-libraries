@@ -29,10 +29,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.resource.ClientBuiltinResourcePackProvider;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.BuiltinResourcePackProvider;
+import net.minecraft.resource.pack.BuiltinPackProvider;
+import net.minecraft.resource.pack.PackProfile;
+import net.minecraft.resource.pack.PackSource;
 import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.ResourcePackProfile;
-import net.minecraft.resource.pack.ResourcePackSource;
 import net.minecraft.text.Text;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
@@ -48,16 +48,16 @@ public abstract class ClientBuiltinResourcePackProviderMixin {
 	private static Map<String, Text> BUILTIN_PACK_DISPLAY_NAMES;
 
 	@ModifyArg(
-			method = "createBuiltinResourcePackProfile(Ljava/lang/String;Lnet/minecraft/resource/pack/ResourcePackProfile$ResourcePackFactory;Lnet/minecraft/text/Text;)Lnet/minecraft/resource/pack/ResourcePackProfile;",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/resource/pack/ResourcePackProfile;of(Ljava/lang/String;Lnet/minecraft/text/Text;ZLnet/minecraft/resource/pack/ResourcePackProfile$ResourcePackFactory;Lnet/minecraft/resource/ResourceType;Lnet/minecraft/resource/pack/ResourcePackProfile$InsertionPosition;Lnet/minecraft/resource/pack/ResourcePackSource;)Lnet/minecraft/resource/pack/ResourcePackProfile;"
-			),
-			index = 3
+		method = "createBuiltinPackProfile(Ljava/lang/String;Lnet/minecraft/resource/pack/PackProfile$PackFactory;Lnet/minecraft/text/Text;)Lnet/minecraft/resource/pack/PackProfile;",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/resource/pack/PackProfile;of(Ljava/lang/String;Lnet/minecraft/text/Text;ZLnet/minecraft/resource/pack/PackProfile$PackFactory;Lnet/minecraft/resource/ResourceType;Lnet/minecraft/resource/pack/PackProfile$InsertionPosition;Lnet/minecraft/resource/pack/PackSource;)Lnet/minecraft/resource/pack/PackProfile;"
+		),
+		index = 3
 	)
-	private ResourcePackProfile.ResourcePackFactory onCreateBuiltinResourcePackProfile(String name, Text displayName, boolean alwaysEnabled,
-			ResourcePackProfile.ResourcePackFactory factory, ResourceType type, ResourcePackProfile.InsertionPosition insertionPosition,
-			ResourcePackSource source) {
+	private PackProfile.PackFactory onCreateBuiltinResourcePackProfile(String name, Text displayName, boolean alwaysEnabled,
+																	   PackProfile.PackFactory factory, ResourceType type, PackProfile.InsertionPosition insertionPosition,
+																	   PackSource source) {
 		if (BUILTIN_PACK_DISPLAY_NAMES.containsKey(name)) {
 			return QuiltResourcePackProfile.wrapToFactory(ResourceLoaderImpl.buildVanillaBuiltinResourcePack(factory.openPrimary(name), ResourceType.CLIENT_RESOURCES, name));
 		}
@@ -66,26 +66,26 @@ public abstract class ClientBuiltinResourcePackProviderMixin {
 	}
 
 	@ModifyArg(
-			method = "createBuiltinResourcePackProfile(Lnet/minecraft/resource/pack/ResourcePack;)Lnet/minecraft/resource/pack/ResourcePackProfile;",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/resource/ClientBuiltinResourcePackProvider;wrapToFactory(Lnet/minecraft/resource/pack/ResourcePack;)Lnet/minecraft/resource/pack/ResourcePackProfile$ResourcePackFactory;"
-			),
-			index = 0
+		method = "createBuiltinPackProfile(Lnet/minecraft/resource/pack/ResourcePack;)Lnet/minecraft/resource/pack/PackProfile;",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/resource/ClientBuiltinResourcePackProvider;wrapToFactory(Lnet/minecraft/resource/pack/ResourcePack;)Lnet/minecraft/resource/pack/PackProfile$PackFactory;"
+		),
+		index = 0
 	)
 	private ResourcePack onPackGet(ResourcePack pack) {
 		return ResourceLoaderImpl.buildMinecraftResourcePack(ResourceType.CLIENT_RESOURCES, pack);
 	}
 
 	@ClientOnly
-	@Mixin(BuiltinResourcePackProvider.class)
+	@Mixin(BuiltinPackProvider.class)
 	public static class Parent {
 		@SuppressWarnings("ConstantConditions")
 		@Inject(method = "registerAdditionalPacks", at = @At("RETURN"))
-		private void addBuiltinResourcePacks(Consumer<ResourcePackProfile> profileAdder, CallbackInfo ci) {
+		private void addBuiltinResourcePacks(Consumer<PackProfile> profileAdder, CallbackInfo ci) {
 			// Register built-in resource packs after vanilla built-in resource packs are registered.
 			if (((Object) this) instanceof ClientBuiltinResourcePackProvider) {
-				ModResourcePackProvider.CLIENT_RESOURCE_PACK_PROVIDER.register(profileAdder);
+				ModResourcePackProvider.CLIENT_RESOURCE_PACK_PROVIDER.loadPacks(profileAdder);
 			}
 		}
 	}

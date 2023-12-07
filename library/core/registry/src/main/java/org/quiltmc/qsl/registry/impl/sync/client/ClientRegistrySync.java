@@ -43,8 +43,7 @@ import net.minecraft.network.packet.payload.CustomPayload;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import net.minecraft.text.component.LiteralComponent;
-import net.minecraft.text.component.TextComponent;
+import net.minecraft.unmapped.C_dysqleov;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.IdList;
@@ -313,8 +312,8 @@ public final class ClientRegistrySync {
 						}
 
 						builder.textEntry(Text.translatableWithFallback("quilt.core.registry_sync.found_expected", "Found '%s', expected '%s'",
-								block == null ? Text.literal("null").formatted(Formatting.RED) : registry.getId(block),
-								conv == null ? Text.literal("null").formatted(Formatting.RED) : registry.getId(conv)));
+							block == null ? Text.literal("null").formatted(Formatting.RED) : registry.getId(block),
+							conv == null ? Text.literal("null").formatted(Formatting.RED) : registry.getId(conv)));
 					}
 				}
 			}
@@ -410,7 +409,7 @@ public final class ClientRegistrySync {
 	}
 
 	private static boolean isTextEmpty(Text text) {
-		return (text.asComponent() == TextComponent.EMPTY || (text.asComponent() instanceof LiteralComponent literalComponent && literalComponent.literal().isEmpty())) && text.getSiblings().isEmpty();
+		return (text.asComponent() == C_dysqleov.field_46625 || (text.asComponent() instanceof C_dysqleov.C_jmgyxdrs literalComponent && literalComponent.comp_737().isEmpty())) && text.getSiblings().isEmpty();
 	}
 
 	private static void handleRestorePacket(MinecraftClient client, ClientConfigurationNetworkHandler handler, ServerPackets.RegistryRestore restore, PacketSender<CustomPayload> sender) {

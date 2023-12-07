@@ -16,22 +16,22 @@
 
 package org.quiltmc.qsl.advancement.api;
 
-import net.minecraft.advancement.criterion.Criterion;
+import net.minecraft.advancement.criterion.CriterionTrigger;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import org.quiltmc.qsl.advancement.mixin.CriteriaAccessor;
-
 public class QuiltCriteria {
-	public static <T extends Criterion<?>> T register(Identifier id, T criterion) {
+	public static <T extends CriterionTrigger<?>> T register(Identifier id, T criterion) {
 		if ("minecraft".equals(id.getNamespace())) {
 			throw new IllegalArgumentException("The " + id + " modded criterion trigger cannot be registered with the 'minecraft' namespace");
 		}
 
-		if (CriteriaAccessor.values().containsKey(id)) {
+		if (Registries.TRIGGER_TYPE.containsId(id)) {
 			throw new IllegalArgumentException("Duplicate criterion trigger id " + id);
 		}
 
-		CriteriaAccessor.values().put(id, criterion);
+		Registry.register(Registries.TRIGGER_TYPE, id, criterion);
 		return criterion;
 	}
 }

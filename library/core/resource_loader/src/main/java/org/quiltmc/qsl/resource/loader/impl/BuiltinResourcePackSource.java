@@ -16,15 +16,15 @@
 
 package org.quiltmc.qsl.resource.loader.impl;
 
-import net.minecraft.resource.pack.ResourcePackSource;
+import net.minecraft.resource.pack.PackSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 /**
  * Represents a built-in resource pack source.
- * Similar to {@link ResourcePackSource#PACK_SOURCE_BUILTIN} but specifies the mod name too.
+ * Similar to {@link PackSource#PACK_SOURCE_BUILTIN} but specifies the mod name too.
  */
-public class BuiltinResourcePackSource implements ResourcePackSource {
+public class BuiltinResourcePackSource implements PackSource {
 	private static final Text SOURCE_BUILTIN_TEXT = Text.translatable("pack.source.builtin");
 	private final ModNioResourcePack pack;
 	private final Text text;

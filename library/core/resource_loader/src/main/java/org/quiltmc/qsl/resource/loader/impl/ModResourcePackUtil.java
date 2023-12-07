@@ -31,8 +31,8 @@ import net.minecraft.SharedConstants;
 import net.minecraft.resource.ResourceIoSupplier;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.pack.DataPackSettings;
+import net.minecraft.resource.pack.PackProfile;
 import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.ResourcePackProfile;
 
 import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.qsl.resource.loader.api.QuiltResourcePackProfile;
@@ -56,9 +56,9 @@ public final class ModResourcePackUtil {
 		}
 
 		return String.format("""
-						{"pack":{"pack_format":%d,"description":"%s"}}
-						""",
-				SharedConstants.getGameVersion().getResourceVersion(type), description);
+				{"pack":{"pack_format":%d,"description":"%s"}}
+				""",
+			SharedConstants.getGameVersion().getResourceVersion(type), description);
 	}
 
 	public static @Nullable ResourceIoSupplier<InputStream> openDefault(ModMetadata info, ResourceType type, String filename) {
@@ -79,8 +79,8 @@ public final class ModResourcePackUtil {
 	}
 
 	public static DataPackSettings createDefaultDataPackSettings(DataPackSettings source) {
-		var moddedResourcePacks = new ArrayList<ResourcePackProfile>();
-		ModResourcePackProvider.SERVER_RESOURCE_PACK_PROVIDER.register(moddedResourcePacks::add);
+		var moddedResourcePacks = new ArrayList<PackProfile>();
+		ModResourcePackProvider.SERVER_RESOURCE_PACK_PROVIDER.loadPacks(moddedResourcePacks::add);
 
 		var enabled = new ArrayList<>(source.getEnabled());
 		var disabled = new ArrayList<>(source.getDisabled());
@@ -88,7 +88,7 @@ public final class ModResourcePackUtil {
 		// This ensure that any built-in registered data packs by mods which needs to be enabled by default are
 		// as the data pack screen automatically put any data pack as disabled except the Default data pack.
 		for (var profile : moddedResourcePacks) {
-			ResourcePack pack = profile.createResourcePack();
+			ResourcePack pack = profile.createPack();
 
 			if (pack.getActivationType().isEnabledByDefault()) {
 				enabled.add(profile.getName());
@@ -100,23 +100,23 @@ public final class ModResourcePackUtil {
 		return new DataPackSettings(enabled, disabled);
 	}
 
-	public static ResourcePackProfile makeBuiltinPackProfile(ModNioResourcePack pack, ResourcePackProfile.Info info) {
-		return ResourcePackProfile.of(
+	public static PackProfile makeBuiltinPackProfile(ModNioResourcePack pack, PackProfile.Info info) {
+		return PackProfile.of(
 			pack.getName(),
 			pack.getDisplayName(),
 			pack.getActivationType() == ResourcePackActivationType.ALWAYS_ENABLED,
 			QuiltResourcePackProfile.wrapToFactory(pack),
 			info,
-			ResourcePackProfile.InsertionPosition.TOP,
+			PackProfile.InsertionPosition.TOP,
 			false,
 			new BuiltinResourcePackSource(pack)
 		);
 	}
 
-	static @Nullable ResourcePackProfile makeBuiltinPackProfile(ModNioResourcePack pack) {
+	static @Nullable PackProfile makeBuiltinPackProfile(ModNioResourcePack pack) {
 		// I think the resource version really shouldn't matter here, but we'll go for the latest asset version just in case
-		ResourcePackProfile.Info info = ResourcePackProfile.readInfoFromPack(pack.getName(), QuiltResourcePackProfile.wrapToFactory(pack),
-				SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES));
+		PackProfile.Info info = PackProfile.readInfoFromPack(pack.getName(), QuiltResourcePackProfile.wrapToFactory(pack),
+			SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES));
 
 		if (info == null) {
 			LOGGER.warn("Couldn't find pack meta for pack {}.", pack.getName());

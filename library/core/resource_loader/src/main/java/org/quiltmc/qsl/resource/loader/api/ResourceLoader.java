@@ -23,8 +23,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.resource.ResourceType;
+import net.minecraft.resource.pack.PackProvider;
 import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.ResourcePackProvider;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -81,7 +81,7 @@ public interface ResourceLoader {
 	 *
 	 * @param provider the provider
 	 */
-	void registerResourcePackProfileProvider(@NotNull ResourcePackProvider provider);
+	void registerResourcePackProfileProvider(@NotNull PackProvider provider);
 
 	/**
 	 * {@return the registration of default resource packs event}
@@ -116,7 +116,7 @@ public interface ResourceLoader {
 	 * @see #newFileSystemResourcePack(Identifier, ModContainer, Path, ResourcePackActivationType, Text)
 	 */
 	default @NotNull ResourcePack newFileSystemResourcePack(@NotNull Identifier id, @NotNull Path rootPath,
-			ResourcePackActivationType activationType) {
+															ResourcePackActivationType activationType) {
 		return this.newFileSystemResourcePack(id, rootPath, activationType, ResourceLoaderImpl.getBuiltinPackDisplayNameFromId(id));
 	}
 
@@ -135,10 +135,10 @@ public interface ResourceLoader {
 	 * @see #newFileSystemResourcePack(Identifier, ModContainer, Path, ResourcePackActivationType, Text)
 	 */
 	default @NotNull ResourcePack newFileSystemResourcePack(@NotNull Identifier id, @NotNull Path rootPath,
-			ResourcePackActivationType activationType, @NotNull Text displayName) {
+															ResourcePackActivationType activationType, @NotNull Text displayName) {
 		var container = QuiltLoader.getModContainer(id.getNamespace())
-				.orElseThrow(() ->
-						new IllegalArgumentException("No mod with ID '" + id.getNamespace() + "' could be found"));
+			.orElseThrow(() ->
+				new IllegalArgumentException("No mod with ID '" + id.getNamespace() + "' could be found"));
 		return this.newFileSystemResourcePack(id, container, rootPath, activationType, displayName);
 	}
 
@@ -157,7 +157,7 @@ public interface ResourceLoader {
 	 * @see #newFileSystemResourcePack(Identifier, ModContainer, Path, ResourcePackActivationType, Text)
 	 */
 	default @NotNull ResourcePack newFileSystemResourcePack(@NotNull Identifier id, @NotNull ModContainer owner, @NotNull Path rootPath,
-			ResourcePackActivationType activationType) {
+															ResourcePackActivationType activationType) {
 		return this.newFileSystemResourcePack(id, owner, rootPath, activationType, ResourceLoaderImpl.getBuiltinPackDisplayNameFromId(id));
 	}
 
@@ -177,7 +177,7 @@ public interface ResourceLoader {
 	 * @see #newFileSystemResourcePack(Identifier, ModContainer, Path, ResourcePackActivationType)
 	 */
 	@NotNull ResourcePack newFileSystemResourcePack(@NotNull Identifier id, @NotNull ModContainer owner, @NotNull Path rootPath,
-			ResourcePackActivationType activationType, @NotNull Text displayName);
+													ResourcePackActivationType activationType, @NotNull Text displayName);
 
 	/**
 	 * Registers a built-in resource pack.
@@ -230,8 +230,8 @@ public interface ResourceLoader {
 	 */
 	static boolean registerBuiltinResourcePack(@NotNull Identifier id, @NotNull ResourcePackActivationType activationType, Text displayName) {
 		var container = QuiltLoader.getModContainer(id.getNamespace())
-				.orElseThrow(() ->
-						new IllegalArgumentException("No mod with mod id " + id.getNamespace() + " could be found"));
+			.orElseThrow(() ->
+				new IllegalArgumentException("No mod with mod id " + id.getNamespace() + " could be found"));
 		return registerBuiltinResourcePack(id, container, activationType, displayName);
 	}
 
@@ -256,7 +256,7 @@ public interface ResourceLoader {
 	 * @see #registerBuiltinResourcePack(Identifier, ModContainer, ResourcePackActivationType, Text)
 	 */
 	static boolean registerBuiltinResourcePack(@NotNull Identifier id, @NotNull ModContainer container,
-			@NotNull ResourcePackActivationType activationType) {
+											   @NotNull ResourcePackActivationType activationType) {
 		return registerBuiltinResourcePack(id, container, activationType, ResourceLoaderImpl.getBuiltinPackDisplayNameFromId(id));
 	}
 
@@ -282,8 +282,8 @@ public interface ResourceLoader {
 	 * @see #registerBuiltinResourcePack(Identifier, ModContainer, ResourcePackActivationType)
 	 */
 	static boolean registerBuiltinResourcePack(@NotNull Identifier id, @NotNull ModContainer container,
-			@NotNull ResourcePackActivationType activationType, Text displayName) {
+											   @NotNull ResourcePackActivationType activationType, Text displayName) {
 		return ResourceLoaderImpl.registerBuiltinResourcePack(id, "resourcepacks/" + id.getPath(), container,
-				activationType, displayName);
+			activationType, displayName);
 	}
 }
