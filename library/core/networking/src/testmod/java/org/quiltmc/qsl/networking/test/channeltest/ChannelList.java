@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier;
 
 final class ChannelList extends EntryListWidget<ChannelList.Entry> {
 	ChannelList(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-		super(client, top, width, bottom-top, itemHeight);
+		super(client, width, bottom-top, top, itemHeight);
 	}
 
 	@Override
