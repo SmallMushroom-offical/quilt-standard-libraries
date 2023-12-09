@@ -29,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.dev.TestCommand;
 import net.minecraft.server.world.ServerWorld;
@@ -110,14 +109,6 @@ public class TestCommandMixin {
 	}
 
 	@Redirect(
-			method = "run(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/test/TestSet;)V",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/StructureBlockBlockEntity;getStructurePath()Ljava/lang/String;")
-	)
-	private static String quiltGameTest$replaceStructurePathWithName(StructureBlockBlockEntity instance) {
-		return instance.getStructureName();
-	}
-
-	@Redirect(
 			method = "executeRun",
 			at = @At(
 					value = "INVOKE",
@@ -162,7 +153,7 @@ public class TestCommandMixin {
 			at = @At(value = "NEW", target = "(Ljava/lang/String;)Lnet/minecraft/util/Identifier;"),
 			expect = 2
 	)
-	private static Identifier quiltGameTest$fixStructureIdentifierImport(String namespace, String structure) {
+	private static Identifier quiltGameTest$fixStructureIdentifierImport(String structure) {
 		return new Identifier(structure);
 	}
 

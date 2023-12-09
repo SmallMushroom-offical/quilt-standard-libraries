@@ -18,6 +18,7 @@ package org.quiltmc.qsl.block.entity.test;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -35,7 +36,7 @@ import net.minecraft.world.World;
 
 public class AngyBlock extends BlockWithEntity {
 	public AngyBlock(MapColor mapColor) {
-		super(AbstractBlock.Settings.copy(Blocks.STONE).mapColor(mapColor));
+		super(AbstractBlock.Settings.method_9630(Blocks.STONE).mapColor(mapColor));
 	}
 
 	@Override
@@ -50,12 +51,12 @@ public class AngyBlock extends BlockWithEntity {
 			if (player.isSneaking()) {
 				blockEntity.rollColor();
 				player.sendMessage(Text.literal("Argh! Why did you dance!")
-						.styled(style -> style.withColor(0xff000000 | blockEntity.getColor())), false);
+					.styled(style -> style.withColor(0xff000000 | blockEntity.getColor())), false);
 			} else {
 				player.sendMessage(Text.literal("I'm am angy block!! But I like the color #")
-								.append(Integer.toHexString(blockEntity.getColor())).append("!")
-								.styled(style -> style.withColor(0xff000000 | blockEntity.getColor())),
-						false
+						.append(Integer.toHexString(blockEntity.getColor())).append("!")
+						.styled(style -> style.withColor(0xff000000 | blockEntity.getColor())),
+					false
 				);
 			}
 		}
@@ -66,6 +67,11 @@ public class AngyBlock extends BlockWithEntity {
 	@Override
 	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return BlockEntityTypeTest.COLORFUL_BLOCK_ENTITY_TYPE.instantiate(pos, state);
+	}
+
+	@Override
+	protected MapCodec<? extends BlockWithEntity> getCodec() {
+		return null;
 	}
 
 	@Override

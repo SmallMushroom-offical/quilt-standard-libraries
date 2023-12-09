@@ -74,7 +74,7 @@ public class RecipeManagerMixin {
 	}
 
 	@Redirect(
-			method = "apply",
+			method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V",
 			at = @At(
 					value = "INVOKE",
 					target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;",
@@ -86,7 +86,7 @@ public class RecipeManagerMixin {
 	}
 
 	@Inject(
-			method = "apply",
+			method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V",
 			at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;)V", remap = false),
 			locals = LocalCapture.CAPTURE_FAILHARD
 	)

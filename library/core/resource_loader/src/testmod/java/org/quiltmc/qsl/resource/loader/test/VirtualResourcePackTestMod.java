@@ -27,8 +27,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.ResourcePackProfile;
-import net.minecraft.resource.pack.ResourcePackSource;
+import net.minecraft.resource.pack.PackProfile;
+import net.minecraft.resource.pack.PackSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -70,7 +70,7 @@ public class VirtualResourcePackTestMod implements ModInitializer, ResourcePackR
 		ServerLifecycleEvents.READY.register(this);
 	}
 
-	private void providePacks(Consumer<ResourcePackProfile> profileAdder, ResourceType type) {
+	private void providePacks(Consumer<PackProfile> profileAdder, ResourceType type) {
 		var pack = new InMemoryResourcePack.Named("activation_test") {
 			@Override
 			public @NotNull ResourcePackActivationType getActivationType() {
@@ -112,8 +112,8 @@ public class VirtualResourcePackTestMod implements ModInitializer, ResourcePackR
 				}
 				""");
 
-		profileAdder.accept(ResourcePackProfile.of("activation_test", Text.literal("Activation Test"), false,
-				QuiltResourcePackProfile.wrapToFactory(pack), type, ResourcePackProfile.InsertionPosition.BOTTOM, ResourcePackSource.PACK_SOURCE_BUILTIN));
+		profileAdder.accept(PackProfile.of("activation_test", Text.literal("Activation Test"), false,
+				QuiltResourcePackProfile.wrapToFactory(pack), type, PackProfile.InsertionPosition.BOTTOM, PackSource.PACK_SOURCE_BUILTIN));
 	}
 
 	@Override

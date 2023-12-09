@@ -43,7 +43,7 @@ import net.minecraft.network.packet.payload.CustomPayload;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import net.minecraft.unmapped.C_dysqleov;
+import net.minecraft.text.component.StringComponent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.IdList;
@@ -409,7 +409,7 @@ public final class ClientRegistrySync {
 	}
 
 	private static boolean isTextEmpty(Text text) {
-		return (text.asComponent() == C_dysqleov.field_46625 || (text.asComponent() instanceof C_dysqleov.C_jmgyxdrs literalComponent && literalComponent.comp_737().isEmpty())) && text.getSiblings().isEmpty();
+		return (text.asComponent() == StringComponent.EMPTY || (text.asComponent() instanceof StringComponent.LiteralTextComponent literalComponent && literalComponent.asString().isEmpty())) && text.getSiblings().isEmpty();
 	}
 
 	private static void handleRestorePacket(MinecraftClient client, ClientConfigurationNetworkHandler handler, ServerPackets.RegistryRestore restore, PacketSender<CustomPayload> sender) {

@@ -19,6 +19,9 @@ transitive-accessible method net/minecraft/block/CarvedPumpkinBlock <init> (Lnet
 transitive-accessible method net/minecraft/block/ChestBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;Ljava/util/function/Supplier;)V
 transitive-accessible method net/minecraft/block/ChorusFlowerBlock <init> (Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/ChorusPlantBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/CopperDoorBlock <init> (Lnet/minecraft/block/BlockSetType;Lnet/minecraft/block/Oxidizable$OxidizationLevel;Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/CopperGrateBlock <init> (Lnet/minecraft/block/Oxidizable$OxidizationLevel;Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/CopperTrapdoorBlock <init> (Lnet/minecraft/block/BlockSetType;Lnet/minecraft/block/Oxidizable$OxidizationLevel;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/CoralBlock <init> (Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/CoralFanBlock <init> (Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/CoralWallFanBlock <init> (Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
@@ -44,6 +47,7 @@ transitive-accessible method net/minecraft/block/FletchingTableBlock <init> (Lne
 transitive-accessible method net/minecraft/block/FluidBlock <init> (Lnet/minecraft/fluid/FlowableFluid;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/FungusBlock <init> (Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/FurnaceBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/GlassBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/GrindstoneBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/HangingRootsBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/JigsawBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
@@ -91,8 +95,9 @@ transitive-accessible method net/minecraft/block/WallRedstoneTorchBlock <init> (
 transitive-accessible method net/minecraft/block/WallSkullBlock <init> (Lnet/minecraft/block/SkullBlock$SkullType;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/WallTorchBlock <init> (Lnet/minecraft/particle/DefaultParticleType;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/WallWitherSkullBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/WaxedCopperGrateBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/WeightedPressurePlateBlock <init> (ILnet/minecraft/block/BlockSetType;Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/WetSpongeBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/WitherSkullBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
 transitive-accessible method net/minecraft/block/dispenser/DispenserBlock <init> (Lnet/minecraft/block/AbstractBlock$Settings;)V
-transitive-accessible method net/minecraft/block/sapling/SaplingBlock <init> (Lnet/minecraft/unmapped/C_hupbiznx;Lnet/minecraft/block/AbstractBlock$Settings;)V
+transitive-accessible method net/minecraft/block/sapling/SaplingBlock <init> (Lnet/minecraft/block/WoodTypes;Lnet/minecraft/block/AbstractBlock$Settings;)V

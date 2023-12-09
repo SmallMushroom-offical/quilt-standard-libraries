@@ -20,6 +20,7 @@ package org.quiltmc.qsl.testing.mixin.server;
 import java.io.File;
 import java.nio.file.Path;
 
+import com.mojang.serialization.Dynamic;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -36,7 +37,6 @@ import net.minecraft.server.Services;
 import net.minecraft.server.dedicated.EulaReader;
 import net.minecraft.server.dedicated.ServerPropertiesLoader;
 import net.minecraft.world.storage.WorldSaveStorage;
-import net.minecraft.world.storage.WorldSaveSummary;
 
 import org.quiltmc.loader.api.minecraft.DedicatedServerOnly;
 import org.quiltmc.qsl.testing.impl.game.QuiltGameTestImpl;
@@ -69,7 +69,7 @@ public class MainMixin {
 								OptionSpec<?> optionSpec11, OptionSpec<?> optionSpec12, OptionSpec<?> optionSpec13, OptionSpec<?> optionSpec14, OptionSpec<?> optionSpec15,
 								OptionSet optionSet, Path path, Path path2, ServerPropertiesLoader serverPropertiesLoader,
 								Path path3, EulaReader eulaReader, File file, Services services, String string, WorldSaveStorage worldSaveStorage,
-								WorldSaveStorage.Session session, WorldSaveSummary worldSaveSummary, boolean bl, PackManager resourcePackManager) {
+								WorldSaveStorage.Session session, Dynamic<?> worldSaveSummary, Dynamic<?> dynamic, boolean bl, PackManager resourcePackManager) {
 		if (QuiltGameTestImpl.ENABLED) {
 			QuiltGameTestImpl.runHeadlessServer(session, resourcePackManager);
 			ci.cancel(); // Do not progress in starting the normal dedicated server.
