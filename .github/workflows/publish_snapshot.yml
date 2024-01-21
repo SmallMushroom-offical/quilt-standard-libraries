@@ -1,5 +1,9 @@
 name: Publish Snapshot
-on: [push]
+on:
+  push:
+    branches:
+      - 1.20.4
+  workflow_dispatch:
 
 jobs:
   build:
